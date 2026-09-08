@@ -20,6 +20,8 @@ class PuzzleBoard:
     
     def neighbors(self):
 
+        #m is a certain move and the if statements look at one move at a time. 
+        
         boards = []
         blank_spot = self.tiles.index(0)
 
@@ -44,12 +46,20 @@ class PuzzleBoard:
         # swap places, put back into PuzzleBoard class
 
         for m in moves:
+
             copy = list(self.tiles)
             move_tile = copy[m]
             copy[m] = 0
             copy[blank_spot] = move_tile
 
-            boards.append(PuzzleBoard(copy))
+            # Check if copy is already in the boards list, then re-run the function neighbors(self).
+            # Else, let this condition at the bottom run i.e. append copy to the boards.
+
+            if copy in boards:
+                neighbors(copy); 
+
+            else: 
+              boards.append(PuzzleBoard(copy))
             
         return boards
         
