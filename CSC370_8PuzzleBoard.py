@@ -1,4 +1,4 @@
-
+import random
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 
@@ -20,8 +20,6 @@ class PuzzleBoard:
     
     def neighbors(self):
 
-        #m is a certain move and the if statements look at one move at a time. 
-        
         boards = []
         blank_spot = self.tiles.index(0)
 
@@ -42,7 +40,7 @@ class PuzzleBoard:
         if col < 2: 
             moves.append(blank_spot + 1)
         
-        ## Make a copy of current board and blank spot and neighbor spot 
+        ## Make a copy of current board, blank spot and neighbor spot 
         # swap places, put back into PuzzleBoard class
 
         for m in moves:
@@ -51,15 +49,21 @@ class PuzzleBoard:
             move_tile = copy[m]
             copy[m] = 0
             copy[blank_spot] = move_tile
+    
 
-            # Check if copy is already in the boards list, then re-run the function neighbors(self).
-            # Else, let this condition at the bottom run i.e. append copy to the boards.
-
-            if copy in boards:
-                neighbors(copy); 
-
-            else: 
-              boards.append(PuzzleBoard(copy))
+            boards.append(PuzzleBoard(copy))
             
         return boards
+    
+
+## Start with goal puzzle then jumble taking random.choice on 
+# the function neighbors on the array board
+def random_start(num_moves=100):
+    board = PuzzleBoard(GOAL)
+    for i in range(num_moves):
+         board = random.choice(board.neighbors())
+    return board
+    
+
+        
         
