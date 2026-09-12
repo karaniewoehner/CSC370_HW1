@@ -56,6 +56,30 @@ class PuzzleBoard:
         return boards
     
 
+    ## Hueristic 1: number of tiles besides the blank that are NOT
+    ## in their goal state
+    def heuristic_1(self):
+        count = 0
+        for i in range(9):
+            tile = self.tiles[i]
+            if tile != 0 and tile != GOAL[i]:
+                count += 1
+        return count
+    
+    ## Heuristic 2: the amount of rows and columns that each tile is 
+    ## away from its goal state
+    def heuristic_2(self):
+        total = 0
+        for i in range(9):
+            tile = self.tiles[i]
+            if tile == 0:
+                continue
+            row, col = i // 3, i % 3
+            goal_index = GOAL.index(tile)
+            goal_row, goal_col = goal_index // 3, goal_index % 3
+            total += abs(row - goal_row) + abs(col - goal_col)
+        return total
+
 ## Start with goal puzzle then jumble taking random.choice on 
 # the function neighbors on the array board
 def random_start(num_moves=100):
