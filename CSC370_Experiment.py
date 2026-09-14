@@ -4,8 +4,8 @@ from CSC370_8PuzzleBoard import PuzzleBoard, random_start
 from CSC370_A_star import a_star
 from CSC370_BranchingFactor import effective_b_factor
 
-DEPTHS = [8, 10, 12]
-INSTANCES_PER_DEPTH = 10
+DEPTHS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
+INSTANCES_PER_DEPTH = 100
 
 
 def h1(board):
@@ -28,19 +28,21 @@ def sort_boards():
         count += 1
 
         ## Start with a jumbled board with the depth found using A* method
-        board = random_start(60)
-        depth = a_star(board, h2)[0]
-        ## Collect boards that are the correct depth and the depth's bin is not full
-        if depth in buckets and len(buckets[depth]) < INSTANCES_PER_DEPTH:
-            buckets[depth].append(board)
-            print("filled depth", depth, "->", len(buckets[depth]))
-        ## Stop if every bin fills with selected number of boards
-        full = True
-        for d in DEPTHS:
-            if len(buckets[d]) < INSTANCES_PER_DEPTH:
-                full = False
-        if full:
-            break
+        for i in DEPTHS:
+            board = random_start(i ** 2)
+        
+            depth = a_star(board, h2)[0]
+            ## Collect boards that are the correct depth and the depth's bin is not full
+            if depth in buckets and len(buckets[depth]) < INSTANCES_PER_DEPTH:
+                buckets[depth].append(board)
+                print("filled depth", depth, "->", len(buckets[depth]))
+            ## Stop if every bin fills with selected number of boards
+            full = True
+            for d in DEPTHS:
+                if len(buckets[d]) < INSTANCES_PER_DEPTH:
+                    full = False
+            if full:
+                break
     
     print("Collection done. Now computing the table...")
     return buckets
