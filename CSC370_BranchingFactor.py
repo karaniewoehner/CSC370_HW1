@@ -17,4 +17,4 @@ def effective_b_factor(N, d):
     step = 0.01
     while tree_size(b, d) < target:
         b += step
-        return b
+    return b
