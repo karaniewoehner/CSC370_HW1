@@ -1,11 +1,13 @@
 import random
+from collections import deque
 
-from CSC370_8PuzzleBoard import PuzzleBoard, random_start
+from CSC370_8PuzzleBoard import PuzzleBoard, random_start, GOAL
 from CSC370_A_star import a_star
 from CSC370_BranchingFactor import effective_b_factor
 
-DEPTHS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
-INSTANCES_PER_DEPTH = 100
+## Constants that can be changed
+DEPTHS = [12, 14, 16, 18]
+INSTANCES_PER_DEPTH = 5
 
 
 def h1(board):
@@ -17,6 +19,8 @@ def h2(board):
 def h3(board):
     return board.heuristic_3()
 
+## Sort boards based on solution depth so that each DEPTHS has INSTANCES_PER_DEPTH
+## amount of solution lengths
 def sort_boards():
     ## one bin per depth
     buckets = {}
@@ -24,30 +28,29 @@ def sort_boards():
         buckets[d] = []
     
     count = 0
-    while count < 200000:
+    while count < 50000:
         count += 1
-
-        ## Start with a jumbled board with the depth found using A* method
-        for i in DEPTHS:
-            board = random_start(i ** 2)
-        
-            depth = a_star(board, h2)[0]
-            ## Collect boards that are the correct depth and the depth's bin is not full
-            if depth in buckets and len(buckets[depth]) < INSTANCES_PER_DEPTH:
-                buckets[depth].append(board)
-                print("filled depth", depth, "->", len(buckets[depth]))
-            ## Stop if every bin fills with selected number of boards
-            full = True
-            for d in DEPTHS:
-                if len(buckets[d]) < INSTANCES_PER_DEPTH:
-                    full = False
-            if full:
-                break
+        ## Run A* on a random solveable board
+        board = random_start(100)
+        depth = a_star(board, h2)[0]
+        ## Add solved board to its solution depth if the solution depth is what we are
+        ## looking for and the depth's bucket is not yet full
+        if depth in buckets and len(buckets[depth]) < INSTANCES_PER_DEPTH:
+            buckets[depth].append(board)
+            print("filled depth", depth, "->", len(buckets[depth]))
+        ## Check if buckets are full after adding a board's solution depth
+        full = True
+        for d in DEPTHS:
+            if len(buckets[d]) < INSTANCES_PER_DEPTH:
+                full = False
+        if full:
+            break
     
     print("Collection done. Now computing the table...")
     return buckets
 
 def results():
+
     buckets = sort_boards()
 
     print("d | A*(h1) Nodes | A*(h2) Nodes | A*(h3) Nodes | A*(h1) b* | A*(h2) b* | A*(h3) b*")
