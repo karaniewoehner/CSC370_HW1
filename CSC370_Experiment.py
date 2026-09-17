@@ -6,8 +6,8 @@ from CSC370_A_star import a_star
 from CSC370_BranchingFactor import effective_b_factor
 
 ## Constants that can be changed
-DEPTHS = [12, 14, 16, 18]
-INSTANCES_PER_DEPTH = 5
+DEPTHS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
+INSTANCES_PER_DEPTH = 100
 
 
 def h1(board):
