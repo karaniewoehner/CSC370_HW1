@@ -18,15 +18,15 @@ def a_star(initial, heuristic):
         if board.goal_reached():
             return g, nodes_generated
         ## if we already visited board, add to list
-        if board in visited:
+        if board.tiles in visited:
             continue
-        visited.add(board)
+        visited.add(board.tiles)
 
         ## else, for each successor one move away from node, add to frontier
         for neighbor in board.neighbors():
             nodes_generated += 1
 
-            if neighbor not in visited:
+            if neighbor.tiles not in visited:
                 counter += 1
                 new_g = g + 1
                 ## f = g + h
