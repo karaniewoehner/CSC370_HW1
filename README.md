@@ -1,9 +1,10 @@
-# CSC370_HW1 — 8 Puzzle with A* Search
+# CSC370_HW1
+# 8 Puzzle with A* Search
 
-Coursework for CSC 370 (Machine Reasoning). This project solves the 8 puzzle
-with A* search under three different heuristics and compares how efficiently
-each heuristic guides the search, measured by the average number of nodes
-generated and the resulting effective branching factor.
+This project solves the 8 puzzle with A* search under three different 
+heuristics and compares how efficiently each heuristic guides the search, 
+measured by the average number of nodes generated and the resulting 
+effective branching factor.
 
 ## Contributors
 
