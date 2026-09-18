@@ -8,7 +8,7 @@ generated and the resulting effective branching factor.
 ## Contributors
 
 - Kara Niewoehner (`karaniewoehner`)
-- Tania (`taumurerwakalisa`)
+- Tania Umurerwa Kalisa (`taumurerwakalisa`)
 
 ## Files
 
