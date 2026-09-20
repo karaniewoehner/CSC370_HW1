@@ -55,7 +55,16 @@ class PuzzleBoard:
             boards.append(PuzzleBoard(copy))
             
         return boards
-        
+
+    ## Heuristic 1: number of tiles besides the blank that are NOT
+    ## in their goal state
+    def heuristic_1(self):
+        count = 0
+        for i in range(9):
+            tile = self.tiles[i]
+            if tile != 0 and tile != GOAL[i]:
+                count += 1
+        return count
 
     ## Heuristic 2: the amount of rows and columns that each tile is 
     ## away from its goal state 
