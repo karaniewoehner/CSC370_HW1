@@ -1,5 +1,4 @@
 import heapq
-from CSC370_8PuzzleBoard import PuzzleBoard
 
 def a_star(initial, heuristic):
     nodes_generated = 1

@@ -7,13 +7,6 @@ class PuzzleBoard:
     def __init__(self, tiles):
         self.tiles = tuple(tiles)
     
-    ## Method that returns the board as a 3x3 grid text
-    def __str__(self):
-        return "\n".join(
-            " ".join(str(t) for t in self.tiles[i:i+3])
-            for i in range(0,9,3)
-        )
-    
     ## Method that tests if the goal sequence was met
     def goal_reached(self):
         return self.tiles == GOAL

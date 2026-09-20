@@ -1,13 +1,11 @@
-import random
-from collections import deque
-
-from CSC370_8PuzzleBoard import PuzzleBoard, random_start, GOAL
+from CSC370_8PuzzleBoard import random_start
 from CSC370_A_star import a_star
 from CSC370_BranchingFactor import effective_b_factor
 
 ## Constants that can be changed
 DEPTHS = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
 INSTANCES_PER_DEPTH = 100
+MAX_ATTEMPTS = 50000
 
 
 def h1(board):
@@ -28,7 +26,7 @@ def sort_boards():
         buckets[d] = []
     
     count = 0
-    while count < 50000:
+    while count < MAX_ATTEMPTS:
         count += 1
         ## Run A* on a random solveable board
         board = random_start(100)
