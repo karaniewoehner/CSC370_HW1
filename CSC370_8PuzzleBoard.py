@@ -1,4 +1,4 @@
-
+import random
 
 GOAL = (1, 2, 3, 4, 5, 6, 7, 8, 0)
 
@@ -56,3 +56,57 @@ class PuzzleBoard:
             
         return boards
         
+## Hueristic 1: number of tiles besides the blank that are NOT
+    ## in their goal state
+    def heuristic_1(self):
+        count = 0
+        for i in range(9):
+            tile = self.tiles[i]
+            if tile != 0 and tile != GOAL[i]:
+                count += 1
+        return count
+    
+    ## Heuristic 2: the amount of rows and columns that each tile is 
+    ## away from its goal state
+    def heuristic_2(self):
+        count = 0
+        for i in range(9):
+            tile = self.tiles[i]
+            if tile == 0:
+                continue
+            row, col = i // 3, i % 3
+            goal_index = GOAL.index(tile)
+            goal_row, goal_col = goal_index // 3, goal_index % 3
+            count += abs(row - goal_row) + abs(col - goal_col)
+        return count
+    
+    ## Heuristic 3: any tile anywhere may swap positions with the blank
+    def heuristic_3(self):
+        tiles = list(self.tiles)
+        count = 0
+
+        while tiles != list(GOAL):
+            blank = tiles.index(0)
+            ## Blank in goal state, but not whole board
+            if tiles[blank] == GOAL[blank]:
+                for i in range(9):
+                    if tiles[i] != GOAL[i]:
+                        break
+                tiles[blank], tiles[i] = tiles[i], tiles[blank]
+            ## Put correct tile where blank is
+            else:
+                swap_spot = GOAL[blank]
+                i = tiles.index(swap_spot)
+                tiles[blank], tiles[i] = tiles[i], tiles[blank]
+            
+            count += 1
+        return count
+
+
+## Start with goal puzzle then jumble taking random.choice on 
+# the function neighbors on the array board
+def random_start(num_moves = 100):
+    board = PuzzleBoard(GOAL)
+    for i in range(num_moves):
+         board = random.choice(board.neighbors())
+    return board
