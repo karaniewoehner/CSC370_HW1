@@ -37,7 +37,6 @@ def sort_boards():
         ## looking for and the depth's bucket is not yet full
         if depth in buckets and len(buckets[depth]) < INSTANCES_PER_DEPTH:
             buckets[depth].append(board)
-            print("filled depth", depth, "->", len(buckets[depth]))
         ## Check if buckets are full after adding a board's solution depth
         full = True
         for d in DEPTHS:
@@ -46,14 +45,13 @@ def sort_boards():
         if full:
             break
     
-    print("Collection done. Now computing the table...")
     return buckets
 
 def results():
 
     buckets = sort_boards()
 
-    print("d | A*(h1) Nodes | A*(h2) Nodes | A*(h3) Nodes | A*(h1) b* | A*(h2) b* | A*(h3) b*")
+    print("d | A*(h1) Nodes | A*(h2) Nodes | A*(h3) Nodes | A*(h1) b_factor | A*(h2) b_factor | A*(h3) b_factor")
     ## For the boards in each depth group
     for d in DEPTHS:
         boards = buckets[d]

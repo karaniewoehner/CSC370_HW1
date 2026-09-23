@@ -1,40 +1,50 @@
 import heapq
 from CSC370_8PuzzleBoard import PuzzleBoard
 
+
+class Node:
+    def __init__(self, state, parent, g, h):
+        self.state = state
+        self.parent = parent
+        self.g = g
+        self.h = h
+        self.f = self.g + self.h
+
+
 def a_star(initial, heuristic):
-    nodes_generated = 1
-    counter = 0
-    ## initialize frontier using initial state of problem of starting board
-    ## and hueristic function as a priority queue
-    frontier = [(heuristic(initial), counter, 0, initial)]
-    ## Track boards that are fully explored
+    start_node = Node(initial, None, 0, heuristic(initial))
+
+    # Initialize the frontier
+    frontier = []
+    counter = 0  # Counter will act as tie-breaker for the priority queue when f values match --> When its time to compare nodes in the pq.
+    heapq.heappush(frontier, (start_node.f, counter, start_node))
+
     visited = set()
+    nodes_generated = 1 
 
-    while frontier:
-        ## pop node from frontier
-        f, _, g, board = heapq.heappop(frontier)
+    while True:
+        if not frontier:
+            return None
 
-        ## if node contains goal state, return solution
-        if board.goal_reached():
-            return g, nodes_generated
-        ## if we already visited board, add to list
-        if board.tiles in visited:
+        current_f, current_counter, current_node = heapq.heappop(frontier) 
+
+        if current_node.state.tiles in visited:
             continue
-        visited.add(board.tiles)
 
-        ## else, for each successor one move away from node, add to frontier
-        for neighbor in board.neighbors():
+        visited.add(current_node.state.tiles)
+
+        if current_node.state.goal_reached():
+            return current_node.g, nodes_generated
+
+        successors = current_node.state.neighbors()
+
+        for successor_state in successors:
+            if successor_state.tiles in visited:
+                continue
+
+            counter += 1
+            new_g = current_node.g + 1
+            new_h = heuristic(successor_state)
+            new_node = Node(successor_state, current_node, new_g, new_h)
+            heapq.heappush(frontier, (new_node.f, counter, new_node))
             nodes_generated += 1
-
-            if neighbor.tiles not in visited:
-                counter += 1
-                new_g = g + 1
-                ## f = g + h
-                new_f = new_g + heuristic(neighbor)
-                ## add to frontier
-                heapq.heappush(frontier, (new_f, counter, new_g, neighbor))
-        
-    return None, nodes_generated
-
-
-
