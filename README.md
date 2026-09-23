@@ -53,3 +53,10 @@ generated and the effective branching factor for each of the three heuristics.
 
 The experiment uses randomly generated boards, so exact node counts vary
 slightly between runs while the overall trends stay consistent.
+
+## AI Use
+### Scope of Assistance 
+* **Syntax & Concept Review:** Used Gemini (3.6 Flash) to review Python dictionary methods and syntax for nested data structures. (‘CSC370_A_Star.py’, line 1)
+* **Boilerplate & Visualization Code:** Generated R programming plotting boilerplate in Jupyter Hub to visualize data into a standard 2D line graph (Figures 3-6)
+* **Auxiliary Utilities:** Generated utility print/formatting strings to format output cleanly (`CSC370_Experiment.py`, lines 54, 79-80).
+
